@@ -1,6 +1,8 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
+  ENV['SECRET_KEY_BASE'] = "1846a1e442b30fce19aadcc449a65d690a57d74e9c522ee01305631872b6867ba060cbc0d12e21ed62540b12446bc6ceff95902f04c8919ce129ca617faaeac0";
+
   # Code is not reloaded between requests.
   config.cache_classes = true
 
