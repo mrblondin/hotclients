@@ -151,6 +151,7 @@
     <orderEntry type="library" scope="PROVIDED" name="minitest (v5.8.0, RVM: ruby-2.0.0-p195) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="multi_json (v1.11.2, RVM: ruby-2.0.0-p195) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="mysql2 (v0.3.16, RVM: ruby-2.0.0-p195) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="passenger (v5.0.18, RVM: ruby-2.0.0-p195) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="phony (v2.15.1, RVM: ruby-2.0.0-p195) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="phony_rails (v0.12.10, RVM: ruby-2.0.0-p195) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rack (v1.5.5, RVM: ruby-2.0.0-p195) [gem]" level="application" />

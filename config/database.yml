@@ -29,3 +29,6 @@ test:
 
 production:
   <<: *default
+  host: hotclients.ckwc1ienb6iu.eu-west-1.rds.amazonaws.com
+  username: admin
+  password: 'hot_clients'
