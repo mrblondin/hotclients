@@ -1,60 +1,66 @@
-<h1>Список клиентов</h1>
-<% if current_role == 'superadmin' || current_role == 'admin' %>
-    <div class="excel_block">
-      Скачать Excel:
-      <%= link_to image_tag("excel.gif"), clients_path(format: "xls") %>
+<div class="clients-container">
+  <h1>Список клиентов</h1>
 
-      <%= form_tag import_clients_path, multipart: true, :class => 'upload_form' do %>
-          Импорт клиентов:
-          <%= file_field_tag :file %>
-          <%= submit_tag "Импорт клиентов" %>
-      <% end %>
-    </div>
-<% end %>
+  <div class="color-tips">Подсказки: <span class="color-kladr">город не подтверждён КЛАДР</span>  <span class="color-refuse-call">отказ</span></div>
 
-<% if can? :create, Client.first %>
-    <%= link_to 'Добавить нового клиента', new_client_path %>
-<% end %>
-<table>
-  <thead>
-  <tr>
-    <th>№</th>
-    <th>Дата заявки</th>
-    <th>ФИО</th>
-    <th>Дата рождения</th>
-    <th>Телефон</th>
-    <th>Регион</th>
-    <th>Город</th>
-    <th>Этап</th>
-    <th>Статус оператора</th>
-    <th>Статус партнёра</th>
-    <th colspan="2"></th>
-  </tr>
-  </thead>
+  <% if current_role == 'superadmin' || current_role == 'admin' %>
+      <div class="excel_block">
+      <span class="dl-excel">Скачать Excel:
+        <%= link_to image_tag("excel.gif"), clients_path(format: "xls") %>   </span>
 
-  <tbody>
-  <% @clients.each_with_index do |client, index| %>
-      <tr>
-        <td><%= index + 1 %></td>
-        <td><%= client.statement_date %></td>
-        <td><%= client.surname + ' ' + client.name + ' ' + client.patronymic %></td>
-        <td><%= client.birth_date %></td>
-        <td>+7 <%= client.phone %></td>
-
-        <td><%= client.region %></td>
-        <td><%= client.city %></td>
-        <td>Этап <%= client.stage %></td>
-        <td><%= client.operator_status %><br><span class="comment"><%= client.operator_comment %></span></td>
-        <td><%= client.partner_status %><br/><span class="comment"><%= client.partner_comment %></span></td>
-
-        <% if can? :update, client %>
-            <td><%= link_to image_tag('edit-icon.png'), edit_client_path(client) %>   </td>
+        <%= form_tag import_clients_path, multipart: true, :class => 'upload_form' do %>
+            Импорт клиентов:
+            <%= file_field_tag :file %>
+            <%= submit_tag "Импорт клиентов" %>
         <% end %>
-        <% if can? :destroy, client %>
-            <td><%= link_to image_tag('delete-icon.png'), client, method: :delete, data: {confirm: 'Are you sure?'} %>   </td>
-        <% end %>
-      </tr>
+      </div>
   <% end %>
-  </tbody>
-</table>
 
+  <% if can? :create, Client.first %>
+      <%= link_to 'Добавить нового клиента', new_client_path %>
+  <% end %>
+  <table>
+    <thead>
+    <tr>
+      <th>№</th>
+      <th>Дата заявки</th>
+      <th>ФИО</th>
+      <th>Дата рождения</th>
+      <th>Телефон</th>
+      <th>Регион</th>
+      <th>Город</th>
+      <th>Этап</th>
+      <th>Статус оператора</th>
+      <th>Статус партнёра</th>
+      <th colspan="2"></th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <% @clients.each_with_index do |client, index| %>
+        <tr class="city_code_<%= client.city_code %>">
+          <td><%= index + 1 %></td>
+          <td><%= client.statement_date %></td>
+          <td><%= client.surname + ' ' + client.name + ' ' + client.patronymic %></td>
+          <td><%= client.birth_date %></td>
+          <td>+7 <%= client.phone %></td>
+
+          <td class="r"><%= client.region %></td>
+          <td class="c"><%= client.city %></td>
+          <td>Этап <%= client.stage %></td>
+          <td class='call-<%= client.operator_status %>'><%= client.operator_status %>
+            <br><span class="comment"><%= client.operator_comment %></span></td>
+          <td><%= client.partner_status %><br/><span class="comment"><%= client.partner_comment %></span></td>
+
+          <% if can? :update, client %>
+              <td><%= link_to image_tag('edit-icon.png'), edit_client_path(client) %>   </td>
+          <% end %>
+          <% if can? :destroy, client %>
+              <td><%= link_to image_tag('delete-icon.png'), client, method: :delete, data: {confirm: 'Are you sure?'} %>   </td>
+          <% end %>
+        </tr>
+    <% end %>
+    </tbody>
+  </table>
+
+</div>

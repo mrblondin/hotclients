@@ -12,6 +12,48 @@
             changeMonth: true,
             changeYear: true
         });
+
+        $("form").on("keypress", function (e) {
+            if (e.keyCode == 13) {
+                return false;
+            }
+        });
+
+        if ($('input.city_code').val() == '' && $('input.city').val() != '') {
+            $('input.region').focusin();
+            $('input.region').blur();
+            $('input.city').focusin();
+            $('input.city').blur();
+        }
+
+        //Проверяем сити-код при загрузке городов
+        $('input.region').kladr({
+            token: 'token',
+            key: 'key',
+            type: $.kladr.type.region,
+            check: function (obj) {
+                if (obj) {
+                    $('input.region').css('color', 'black');
+                } else {
+                    $('input.region').css('color', 'red');
+                }
+            }
+        });
+        //Проверка города
+        $('input.city').kladr({
+            token: 'token',
+            key: 'key',
+            type: $.kladr.type.region,
+            check: function (obj) {
+                if (obj) {
+                    $('input.city').css('color', 'black');
+                    $('input.city_code').val(obj.id);
+                } else {
+                    $('input.city').css('color', 'red');
+                }
+            }
+        });
+
     });
 </script>
 

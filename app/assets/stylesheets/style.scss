@@ -1,3 +1,6 @@
+$no-city-color: #d7d6d6;
+$refuse-call-color: #ff8282;
+
 body {
 
   a {
@@ -46,33 +49,54 @@ body {
     }
   }
 
-  table tr {
-    th {
-      padding: 5px;
-      border: 1px solid #6d8084;
-      text-align: center;
-    }
-
-    td {
-      padding: 5px;
-      border: 1px solid #6d8084;
-      span.comment {
-        font-size: 70%;
-        color: #444444
+  table {
+    width: 100%;
+    tr {
+      &.city_code_ {
+        td.c, td.r {
+          background-color: $no-city-color;
+        }
       }
-    }
 
-    th.city, td.city {
-      width: 320px
+      th {
+        padding: 5px;
+        border: 1px solid #6d8084;
+        text-align: center;
+      }
+
+      td {
+        padding: 5px;
+        border: 1px solid #6d8084;
+        span.comment {
+          font-size: 70%;
+          color: #444444
+        }
+      }
+
+      td.call-Отказ {
+        background: $refuse-call-color;
+      }
+
+      th.city, td.city {
+        width: 320px
+      }
     }
   }
 
   div.excel_block {
     margin: 5px 0;
 
-    form.upload_form {
+    > span.dl-excel {
+      float: right;
       display: inline-block;
-      margin-left: 150px;
+      position: relative;
+      bottom: 5px;
+    }
+
+    form.upload_form {
+      float: right;
+      display: inline-block;
+      margin-right: 50px;
 
       input[type=file] {
         display: inline-block;
@@ -102,6 +126,27 @@ body {
     .actions {
       text-align: center;
       input[type=submit] {
+      }
+    }
+  }
+
+  div.clients-container {
+    position: relative;
+    .color-tips {
+      font-size: 80%;
+      position: absolute;
+      top: 0px;
+      right: 10px;
+      span {
+        display: inline-block;
+        margin: 0 10px;
+        padding: 0 4px;
+        &.color-kladr {
+          background: $no-city-color;
+        }
+        &.color-refuse-call {
+          background: $refuse-call-color;;
+        }
       }
     }
   }

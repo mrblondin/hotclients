@@ -30,12 +30,12 @@
             <Cell><Data ss:Type="String"><%= client.surname + ' ' + client.name + ' ' + client.patronymic %></Data></Cell>
             <Cell><Data ss:Type="String"><%= client.statement_date.to_s %></Data></Cell>
             <Cell><Data ss:Type="String"><%= client.birth_date.to_s %></Data></Cell>
-            <Cell><Data ss:Type="String"><%= client.snils %></Data></Cell>
+            <Cell><Data ss:Type="String"><%= Snils.new(@client.snils).formatted %></Data></Cell>
             <Cell><Data ss:Type="String">+7<%= client.phone %></Data></Cell>
             <Cell><Data ss:Type="String"><%= client.region %></Data></Cell>
             <Cell><Data ss:Type="String"><%= client.city %></Data></Cell>
             <Cell><Data ss:Type="String"><%= client.address %></Data></Cell>
-            <Cell><Data ss:Type="String"><%= client.user.login %></Data></Cell>
+            <Cell><Data ss:Type="String"><%= client.user.login if !client.user.nil? %></Data></Cell>
             <Cell><Data ss:Type="String">Этап <%= client.stage %></Data></Cell>
             <Cell><Data ss:Type="String"><%= client.operator_status %></Data></Cell>
             <Cell><Data ss:Type="String"><%= client.operator_comment %></Data></Cell>
