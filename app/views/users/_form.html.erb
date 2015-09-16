@@ -62,7 +62,7 @@
     <% if (current_role == 'superadmin') %>
         <div class="field-partner" style="display: none">
           <%= f.label :partner_id %>
-          <%= f.select :partner_id, options_from_collection_for_select(User.where(:role => 'partner'), 'id', 'surname') %>
+          <%= f.select :partner_id, options_from_collection_for_select(User.where(:role => 'partner'), 'id', 'surname', @user.partner_id), :include_blank => true %>
         </div>
     <% end %>
     <div class="field">
