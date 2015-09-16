@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" hash="1630809037">
+    <data-source source="LOCAL" name="Rails hotclients: development" uuid="4603c9c8-765e-4842-8ad7-ef8952113204">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:mysql://127.0.0.1:3306/hotclients</jdbc-url>
+      <libraries />
+    </data-source>
+  </component>
+</project>

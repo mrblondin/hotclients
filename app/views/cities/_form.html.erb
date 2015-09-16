@@ -1,0 +1,37 @@
+<script script="text/javascript">
+    $(function () {
+        fillInCityKLADR();
+    });
+</script>
+
+<%= form_for(@city, :html => {:class => 'city_form'}) do |f| %>
+    <h3>Добавить город</h3>
+    <% if @city.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@city.errors.count, "error") %> prohibited this city from being saved:</h2>
+
+          <ul>
+            <% @city.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
+    <div class="js-form-address">
+      <div class="field">
+        <%= f.label :region %><br>
+        <%= f.text_field :region, :class => 'region' %>
+      </div>
+      <div class="field">
+        <%= f.label :city %><br>
+        <%= f.text_field :city, :class => 'city' %>
+        <%= f.hidden_field :city_code, :class => 'city_code' %>
+      </div>
+      <div class="tooltip" style="display: none;"><b></b><span></span></div>
+    </div>
+    <%= f.hidden_field :user_id %>
+    <div class="actions">
+      <%= f.submit 'Добавить город' %>
+    </div>
+<% end %>

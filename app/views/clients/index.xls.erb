@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+          xmlns:o="urn:schemas-microsoft-com:office:office"
+          xmlns:x="urn:schemas-microsoft-com:office:excel"
+          xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+          xmlns:html="http://www.w3.org/TR/REC-html40">
+  <Worksheet ss:Name="Sheet1">
+    <Table>
+      <Row>
+        <Cell><Data ss:Type="String">N</Data></Cell>
+        <Cell><Data ss:Type="String">ФИО</Data></Cell>
+        <Cell><Data ss:Type="String">Дата заявки</Data></Cell>
+        <Cell><Data ss:Type="String">Дата рождения</Data></Cell>
+        <Cell><Data ss:Type="String">СНИЛС</Data></Cell>
+        <Cell><Data ss:Type="String">Телефон</Data></Cell>
+        <Cell><Data ss:Type="String">Регион</Data></Cell>
+        <Cell><Data ss:Type="String">Город</Data></Cell>
+        <Cell><Data ss:Type="String">Адрес</Data></Cell>
+        <Cell><Data ss:Type="String">Ответственный оператор</Data></Cell>
+        <Cell><Data ss:Type="String">Этап обработки</Data></Cell>
+        <Cell><Data ss:Type="String">Статус оператора</Data></Cell>
+        <Cell><Data ss:Type="String">Комментарий оператора</Data></Cell>
+        <Cell><Data ss:Type="String">Статус партнёра</Data></Cell>
+        <Cell><Data ss:Type="String">Комментарий партнёра</Data></Cell>
+        <Cell><Data ss:Type="String">Плановая дата встречи</Data></Cell>
+      </Row>
+      <% @clients.each do |client| %>
+          <Row>
+            <Cell><Data ss:Type="Number"><%= client.id %></Data></Cell>
+            <Cell><Data ss:Type="String"><%= client.surname + ' ' + client.name + ' ' + client.patronymic %></Data></Cell>
+            <Cell><Data ss:Type="String"><%= client.statement_date.to_s %></Data></Cell>
+            <Cell><Data ss:Type="String"><%= client.birth_date.to_s %></Data></Cell>
+            <Cell><Data ss:Type="String"><%= client.snils %></Data></Cell>
+            <Cell><Data ss:Type="String">+7<%= client.phone %></Data></Cell>
+            <Cell><Data ss:Type="String"><%= client.region %></Data></Cell>
+            <Cell><Data ss:Type="String"><%= client.city %></Data></Cell>
+            <Cell><Data ss:Type="String"><%= client.address %></Data></Cell>
+            <Cell><Data ss:Type="String"><%= client.user.login %></Data></Cell>
+            <Cell><Data ss:Type="String">Этап <%= client.stage %></Data></Cell>
+            <Cell><Data ss:Type="String"><%= client.operator_status %></Data></Cell>
+            <Cell><Data ss:Type="String"><%= client.operator_comment %></Data></Cell>
+            <Cell><Data ss:Type="String"><%= client.partner_status %></Data></Cell>
+            <Cell><Data ss:Type="String"><%= client.partner_comment %></Data></Cell>
+            <Cell><Data ss:Type="String"><%= client.meeting_date.to_s %></Data></Cell>
+          </Row>
+      <% end %>
+    </Table>
+  </Worksheet>
+</Workbook>

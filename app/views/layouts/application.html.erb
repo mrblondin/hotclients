@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Hotclients</title>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+<nav class="navbar navbar-blue">
+  <div class="container">
+    <div id="navbar">
+      <ul class="nav navbar-nav">
+        <li><%= link_to 'Клиенты', root_path %></li>
+        <% if current_user %>
+            <% if ['superadmin', 'admin', 'partner'].include? current_role %>
+                <li><%= link_to 'Пользователи', '/users' %></li>
+            <% end %>
+        <% end %>
+      </ul>
+      <ul class="nav navbar-nav pull-right">
+        <% if current_user %>
+            <li><span>Вы вошли как <b class="login"><%= current_user.login %></b></span></li>
+            <li><%= link_to 'Выйти', sign_out_path, method: :delete %></li>
+        <% else %>
+            <li><%= link_to 'Войти', sign_in_path %></li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</nav>
+<%= yield %>
+
+</body>
+</html>

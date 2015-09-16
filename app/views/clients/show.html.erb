@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @client.name %>
+</p>
+
+<p>
+  <strong>Surname:</strong>
+  <%= @client.surname %>
+</p>
+
+<p>
+  <strong>Patronymic:</strong>
+  <%= @client.patronymic %>
+</p>
+
+<p>
+  <strong>Birth Date:</strong>
+  <%= @client.birth_date %>
+</p>
+
+<p>
+  <strong>Phone:</strong>
+  <%= @client.phone %>
+</p>
+
+<%= link_to 'Редактировать', edit_client_path(@client) %> |
+<%= link_to 'Назад', clients_path %>

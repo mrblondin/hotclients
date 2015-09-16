@@ -1,0 +1,48 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Логин:</strong>
+  <%= @user.login %>
+</p>
+
+<p>
+  <strong>Роль:</strong>
+  <%= @user.role %>
+</p>
+
+<p>
+  <strong>Фамилия:</strong>
+  <%= @user.surname %>
+</p>
+<p>
+  <strong>Имя:</strong>
+  <%= @user.name %>
+</p>
+
+
+<%= link_to 'Редактировать', edit_user_path(@user) %> |
+<%= link_to 'Назад', users_path %>
+
+<% if @user.role =='partner' || @user.role == 'agent' %>
+    <%= render 'cities/form' %>
+    <h3>Города <%= @user.login %></h3>
+    <table>
+      <% if @cities.count > 0 %>
+          <th>№</th>
+          <th>Регион</th>
+          <th>Город</th>
+          <th>Код Кладра</th>
+          <th>Удаление</th>
+      <% end %>
+
+      <% @cities.sort_by { |city| [city.region, city.city] }.each_with_index do |city, index| %>
+          <tr>
+            <td><%= index + 1 %></td>
+            <td><%= city.region %></td>
+            <td><%= city.city %></td>
+            <td><%= city.city_code %></td>
+            <td><%= link_to 'Удалить', city_path(city), method: :delete, data: {confirm: 'Вы уверены?'} %></td>
+          </tr>
+      <% end %>
+    </table>
+<% end %>

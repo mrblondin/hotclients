@@ -1,0 +1,45 @@
+<h1>Список пользователей</h1>
+
+
+<%= link_to 'Новый пользователь', new_user_path %>
+<table>
+  <thead>
+  <tr>
+    <th>№</th>
+    <th>Логин</th>
+    <th>Роль</th>
+    <th>Имя</th>
+    <th>Фамилия</th>
+    <th>Партнёр</th>
+    <th class="city">Города</th>
+    <th colspan="2"></th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @users.each_with_index do |user, index| %>
+      <tr>
+        <td><%= index + 1 %></td>
+        <td><%= user.login %></td>
+        <td><%= user.role %></td>
+        <td><%= user.name %></td>
+        <td><%= user.surname %></td>
+        <td>
+          <% if user.partner != nil %><%= user.partner.surname + ' ' + user.partner.name %>
+          <% end %></td>
+        <td class="city">
+          <% if user.role == 'partner' || user.role == 'agent' %>
+              <%= link_to 'Ред. Города', user %><br/>
+              <% user.cities.each do |city| %>
+                  <%= city.city %>
+              <% end %>
+          <% end %>
+        </td>
+        <td><%= link_to image_tag('edit-icon.png'), edit_user_path(user) %></td>
+        <td><%= link_to image_tag('delete-icon.png'), user, method: :delete, data: {confirm: 'Are you sure?'} %></td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<br>

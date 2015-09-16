@@ -1,0 +1,109 @@
+body {
+
+  a {
+    text-decoration: underline;
+    img {
+      border: 1px white solid;
+    }
+  }
+
+  a:hover {
+    background: none;
+    color: green;
+    img {
+      border: 1px green solid
+    }
+  }
+
+  h1 {
+    font-size: 160%;
+    text-align: center;
+  }
+  h2 {
+    font-size: 140%;
+  }
+  h3 {
+    font-size: 120%;
+  }
+
+  padding: 20px;
+
+  div#navbar {
+    li span {
+      line-height: 20px;
+      b.login {
+        color: blue;
+        font-weight: bold;
+      }
+    }
+  }
+
+  .navbar-blue {
+    background-color: #e3e3e3;
+    span {
+      display: block;
+      padding: 15px;
+    }
+  }
+
+  table tr {
+    th {
+      padding: 5px;
+      border: 1px solid #6d8084;
+      text-align: center;
+    }
+
+    td {
+      padding: 5px;
+      border: 1px solid #6d8084;
+      span.comment {
+        font-size: 70%;
+        color: #444444
+      }
+    }
+
+    th.city, td.city {
+      width: 320px
+    }
+  }
+
+  div.excel_block {
+    margin: 5px 0;
+
+    form.upload_form {
+      display: inline-block;
+      margin-left: 150px;
+
+      input[type=file] {
+        display: inline-block;
+        width: 180px;
+      }
+    }
+
+  }
+
+  .form-client {
+    label {
+      width: 150px
+    }
+
+    select {
+      width: 160px
+    }
+
+    div.left {
+      float: left;
+      width: 400px
+    }
+    div.right {
+      float: left;
+      width: 400px;
+    }
+    .actions {
+      text-align: center;
+      input[type=submit] {
+      }
+    }
+  }
+
+}

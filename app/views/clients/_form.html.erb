@@ -1,0 +1,132 @@
+<script script="text/javascript">
+    $(function () {
+        fillInCityKLADR();
+        $('#client_meeting_date').datepicker({
+            dateFormat: "dd/mm/yy",
+            numberOfMonths: 3,
+            showButtonPanel: true
+        });
+        $('#client_birth_date').datepicker({
+            dateFormat: "dd/mm/yy",
+            yearRange: "1957:2002",
+            changeMonth: true,
+            changeYear: true
+        });
+    });
+</script>
+
+<%
+   sel_stage = [['Этап 1', '1'], ['Этап 2', '2']]
+   sel_op_status = ['', 'Недозвон-1', 'Недозвон-2', 'Недозвон-Итог', 'Оформлен', 'Отказ', 'Выключен', 'Перезвон', 'Дубль']
+   sel_ag_status = ['', 'Недозвон-1', 'Недозвон-2', 'Недозвон-Итог', 'Договор', 'Встреча', 'Перенос', 'Отказ-телефон', 'Отказ-встреча', 'Выключен', 'Неверный номер', 'Дубль']
+
+%>
+
+<%= form_for(@client, :html => {:class => 'form-client city_form', :style => 'margin: 0 auto; width: 800px;'}) do |f| %>
+    <% if @client.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@client.errors.count, "error") %> prohibited this client from being saved:</h2>
+
+          <ul>
+            <% @client.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+    <div class="clearfix">
+      <div class="left">
+        <div class="field">
+          <%= f.label :surname, 'Фамилия' %>
+          <%= f.text_field :surname %>
+        </div>
+        <div class="field">
+          <%= f.label :name, 'Имя' %>
+          <%= f.text_field :name %>
+        </div>
+        <div class="field">
+          <%= f.label :patronymic, 'Отчество' %>
+          <%= f.text_field :patronymic %>
+        </div>
+        <div class="field">
+          <%= f.label :birth_date, 'Дата рождения' %>
+          <%= f.text_field :birth_date %>
+        </div>
+        <div class="field">
+          <%= f.label :phone, 'Телефон' %>
+          +7 <%= f.text_field :phone, :style => 'width:142px', :maxlength => '10' %>
+        </div>
+
+        <div class="js-form-address">
+          <div class="field">
+            <%= f.label :region, 'Регион' %>
+            <%= f.text_field :region, :class => 'region' %>
+          </div>
+          <div class="field">
+            <%= f.label :city, 'Город' %>
+            <%= f.text_field :city, :class => 'city' %>
+            <%= f.hidden_field :city_code, :class => 'city_code' %>
+          </div>
+          <div class="tooltip" style="display: none;"><b></b><span></span></div>
+        </div>
+
+        <div class="field">
+          <%= f.label :address, 'Адрес' %>
+          <%= f.text_area :address %>
+        </div>
+
+
+        <div class="field">
+          <%= f.label :snils, 'СНИЛС' %>
+          <%= f.text_field :snils, :value => (@client.snils.nil? || @client.snils.empty? ? '' : Snils.new(@client.snils).formatted) %>
+        </div>
+      </div>
+      <div class="right">
+        <% if ['superadmin', 'admin'].include? current_role %>
+            <div class="field">
+              <%= f.label :stage, 'Этап' %>
+              <%= f.select :stage, options_for_select(sel_stage, @client.stage), {}, {:class => 'select-stage'} %>
+            </div>
+
+            <div class="field">
+              <%= f.label :user_id, 'Оператор' %>
+              <%= collection_select(:client, :user_id, User.where(:role => 'operator'), :id, :login, :prompt => 'Please select operator') %>
+            </div>
+        <% end %>
+
+        <% if ['operator', 'superadmin', 'admin'].include? current_role %>
+            <div class="field">
+              <%= f.label :operator_status, 'Статус оператора' %>
+              <%= f.select :operator_status, options_for_select(sel_op_status, @client.operator_status), {}, {:class => 'select-op-status'} %>
+            </div>
+        <% end %>
+        <div class="field">
+          <%= f.label :operator_comment, 'Комментарий оператора' %>
+          <%= f.text_area :operator_comment %>
+        </div>
+
+        <% if ['agent', 'superadmin', 'admin', 'partner'].include? current_role %>
+            <div class="field">
+              <%= f.label :partner_status, 'Статус партнёра' %>
+              <%= f.select :partner_status, options_for_select(sel_ag_status, @client.partner_status), {}, {:class => 'select-op-status'} %>
+            </div>
+
+            <div class="field">
+              <%= f.label :partner_comment, 'Комментарий партнёра' %>
+              <%= f.text_area :partner_comment %>
+            </div>
+        <% end %>
+
+        <div class="field">
+          <%= f.label :meeting_date, 'Плановая дата встречи' %>
+          <%= f.text_field :meeting_date %>
+        </div>
+
+      </div>
+
+
+    </div>
+    <div class="actions">
+      <%= f.submit 'Сохранить Клиента' %>
+    </div>
+<% end %>

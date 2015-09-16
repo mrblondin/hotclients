@@ -1,0 +1,79 @@
+<script script="text/javascript">
+    var selRole = $('.select-role');
+    showHidePartner(selRole);
+    $(function () {
+        selRole.change(function () {
+            showHidePartner($(this));
+        })
+    });
+
+    function showHidePartner(select) {
+        if (select.val() == 'agent') {
+            $('.field-partner').show();
+        } else {
+            $('.field-partner').hide();
+        }
+    }
+</script>
+<%= form_for(@user, :html => {:class => 'city_form form-client', :style => 'margin:0 auto; width:320px;'}) do |f| %>
+    <% if @user.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+
+          <ul>
+            <% @user.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
+    <% selection_roles = {}
+       if current_role == 'superadmin'
+         selection_roles = [['Главный Админ', 'superadmin'], ['Админ', 'admin'], ['Оператор', 'operator'], ['Партнёр', 'partner'], ['Агент', 'agent']]
+       elsif current_role == 'admin'
+         selection_roles = [['Оператор', 'operator']]
+       elsif current_role == 'partner'
+         selection_roles = [['Агент', 'agent']]
+       end
+    %>
+
+    <div class="field">
+      <%= f.label :login, 'Логин' %>
+      <%= f.text_field :login %>
+    </div>
+    <div class="field">
+      <%= f.label :password, 'Пароль' %>
+      <%= f.password_field :password %>
+    </div>
+
+    <div class="field">
+      <%= f.label :password_confirmation, 'Подтверждение пароля' %>
+      <%= f.password_field :password_confirmation %>
+    </div>
+    <div class="field">
+      <%= f.label :email, 'Почта' %>
+      <%= f.text_field :email %>
+    </div>
+    <div class="field">
+      <%= f.label :role, 'Роль' %>
+      <%= f.select :role, options_for_select(selection_roles, @user.role), {}, {:class => 'select-role'} %>
+    </div>
+    <% if (current_role == 'superadmin') %>
+        <div class="field-partner" style="display: none">
+          <%= f.label :partner_id %>
+          <%= f.select :partner_id, options_from_collection_for_select(User.where(:role => 'partner'), 'id', 'surname') %>
+        </div>
+    <% end %>
+    <div class="field">
+      <%= f.label :name, 'Фамилия' %>
+      <%= f.text_field :name %>
+    </div>
+    <div class="field">
+      <%= f.label :surname, 'Имя' %>
+      <%= f.text_field :surname %>
+    </div>
+    <div class="actions">
+      <%= f.submit 'Сохранить пользователя' %>
+    </div>
+<% end %>
