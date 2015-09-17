@@ -54,15 +54,40 @@
             }
         });
 
+        //Запрещаем исправлять
+        <% if ['operator', 'admin'].include? current_role %>
+        $('#client_partner_status').prop('disabled', true);
+        $('#client_partner_comment').prop('disabled', true);
+        $('#client_meeting_date').prop('disabled', true);
+        <%end%>
+
+
+        <% if ['agent', 'partner'].include? current_role %>
+        $('#client_surname').prop('disabled', true);
+        $('#client_name').prop('disabled', true);
+        $('#client_patronymic').prop('disabled', true);
+        $('#client_birth_date').prop('disabled', true);
+        $('#client_phone').prop('disabled', true);
+        $('#client_region').prop('disabled', true);
+        $('#client_city').prop('disabled', true);
+        $('#client_address').prop('disabled', true);
+        $('#client_snils').prop('disabled', true);
+        $('#client_operator_status').prop('disabled', true);
+        $('#client_operator_comment').prop('disabled', true);
+        <%end%>
+
+        <% if ['agent', 'partner', 'operator'].include? current_role %>
+        $('#client_stage').prop('disabled', true);
+        $('#client_user_id').prop('disabled', true);
+        <%end%>
+
+        $('form input').add('form select').add('form textarea').each(function () {
+            if ($(this).prop('disabled') == true) {
+                $(this).siblings('label').css('font-weight','normal');
+            }
+        });
     });
 </script>
-
-<%
-   sel_stage = [['Этап 1', '1'], ['Этап 2', '2']]
-   sel_op_status = ['', 'Недозвон-1', 'Недозвон-2', 'Недозвон-Итог', 'Оформлен', 'Отказ', 'Выключен', 'Перезвон', 'Дубль']
-   sel_ag_status = ['', 'Недозвон-1', 'Недозвон-2', 'Недозвон-Итог', 'Договор', 'Встреча', 'Перенос', 'Отказ-телефон', 'Отказ-встреча', 'Выключен', 'Неверный номер', 'Дубль']
-
-%>
 
 <%= form_for(@client, :html => {:class => 'form-client city_form', :style => 'margin: 0 auto; width: 800px;'}) do |f| %>
     <% if @client.errors.any? %>
@@ -124,41 +149,35 @@
         </div>
       </div>
       <div class="right">
-        <% if ['superadmin', 'admin'].include? current_role %>
-            <div class="field">
-              <%= f.label :stage, 'Этап' %>
-              <%= f.select :stage, options_for_select(sel_stage, @client.stage), {}, {:class => 'select-stage'} %>
-            </div>
+        <div class="field">
+          <%= f.label :stage, 'Этап' %>
+          <%= f.select :stage, options_for_select(Client.sel_stage, @client.stage), {}, {:class => 'select-stage'} %>
+        </div>
 
-            <div class="field">
-              <%= f.label :user_id, 'Оператор' %>
-              <%= collection_select(:client, :user_id, User.where(:role => 'operator'), :id, :login, :prompt => 'Please select operator') %>
-            </div>
-        <% end %>
+        <div class="field">
+          <%= f.label :user_id, 'Оператор' %>
+          <%= collection_select(:client, :user_id, User.where(:role => 'operator'), :id, :login, :prompt => 'Please select operator') %>
+        </div>
 
-        <% if ['operator', 'superadmin', 'admin'].include? current_role %>
-            <div class="field">
-              <%= f.label :operator_status, 'Статус оператора' %>
-              <%= f.select :operator_status, options_for_select(sel_op_status, @client.operator_status), {}, {:class => 'select-op-status'} %>
-            </div>
-        <% end %>
+
+        <div class="field">
+          <%= f.label :operator_status, 'Статус оператора' %>
+          <%= f.select :operator_status, options_for_select(Client.sel_op_status, @client.operator_status), {}, {:class => 'select-op-status'} %>
+        </div>
         <div class="field">
           <%= f.label :operator_comment, 'Комментарий оператора' %>
           <%= f.text_area :operator_comment %>
         </div>
 
-        <% if ['agent', 'superadmin', 'admin', 'partner'].include? current_role %>
-            <div class="field">
-              <%= f.label :partner_status, 'Статус партнёра' %>
-              <%= f.select :partner_status, options_for_select(sel_ag_status, @client.partner_status), {}, {:class => 'select-op-status'} %>
-            </div>
+        <div class="field">
+          <%= f.label :partner_status, 'Статус партнёра' %>
+          <%= f.select :partner_status, options_for_select(Client.sel_ag_status, @client.partner_status), {}, {:class => 'select-op-status'} %>
+        </div>
 
-            <div class="field">
-              <%= f.label :partner_comment, 'Комментарий партнёра' %>
-              <%= f.text_area :partner_comment %>
-            </div>
-        <% end %>
-
+        <div class="field">
+          <%= f.label :partner_comment, 'Комментарий партнёра' %>
+          <%= f.text_area :partner_comment %>
+        </div>
         <div class="field">
           <%= f.label :meeting_date, 'Плановая дата встречи' %>
           <%= f.text_field :meeting_date %>

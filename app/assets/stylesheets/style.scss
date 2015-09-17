@@ -52,6 +52,21 @@ body {
   table {
     width: 100%;
     tr {
+
+      th .current {
+        padding-right: 12px;
+        background-repeat: no-repeat;
+        background-position: right center;
+      }
+
+      th .asc {
+        background-image: image_url('up_arrow.gif');
+      }
+
+      th .desc {
+        background-image: image_url('down_arrow.gif');
+      }
+
       &.city_code_ {
         td.c, td.r {
           background-color: $no-city-color;
@@ -59,6 +74,10 @@ body {
       }
 
       th {
+        a {
+          color: #426aff;
+        }
+        color: #426aff;
         padding: 5px;
         border: 1px solid #6d8084;
         text-align: center;
@@ -148,6 +167,14 @@ body {
           background: $refuse-call-color;;
         }
       }
+    }
+
+    nav.pagination {
+      margin: 5px 0 0 0;
+    }
+
+    #clients_search input[type=text]{
+      width:200px;
     }
   }
 

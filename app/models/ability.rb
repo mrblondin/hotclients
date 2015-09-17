@@ -9,7 +9,8 @@ class Ability
     if user.role == 'superadmin' or user.role == 'admin'
       can :manage, :all
     elsif user.role == 'partner'
-      can :manage, [Client, User, City]
+      can :manage, [User, City]
+      can :cru, Client
     elsif user.role == 'operator' or user.role == 'agent'
       can :cru, Client
     else

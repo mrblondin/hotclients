@@ -1,66 +1,39 @@
+<script type="text/javascript">
+  //Отправляешь форму при смене количества записей на страницу
+    $(function () {
+        $('#per_page').change(
+            function () {
+               $('#clients_search').submit();
+        });
+
+        $('select#operator_status option').first().text('Статус оператора');
+        $('select#partner_status option').first().text('Статус партнёра');
+    });
+</script>
+
 <div class="clients-container">
   <h1>Список клиентов</h1>
 
-  <div class="color-tips">Подсказки: <span class="color-kladr">город не подтверждён КЛАДР</span>  <span class="color-refuse-call">отказ</span></div>
+  <div class="color-tips">Подсказки: <span class="color-kladr">город не подтверждён КЛАДР</span>
+    <span class="color-refuse-call">отказ</span></div>
 
-  <% if current_role == 'superadmin' || current_role == 'admin' %>
-      <div class="excel_block">
-      <span class="dl-excel">Скачать Excel:
-        <%= link_to image_tag("excel.gif"), clients_path(format: "xls") %>   </span>
 
-        <%= form_tag import_clients_path, multipart: true, :class => 'upload_form' do %>
-            Импорт клиентов:
-            <%= file_field_tag :file %>
-            <%= submit_tag "Импорт клиентов" %>
-        <% end %>
-      </div>
-  <% end %>
 
   <% if can? :create, Client.first %>
-      <%= link_to 'Добавить нового клиента', new_client_path %>
+      <span style="display: inline-block; position: absolute; top:0px; left:0px; font-weight: bold"><%= link_to 'Добавить нового клиента', new_client_path %> </span>
   <% end %>
-  <table>
-    <thead>
-    <tr>
-      <th>№</th>
-      <th>Дата заявки</th>
-      <th>ФИО</th>
-      <th>Дата рождения</th>
-      <th>Телефон</th>
-      <th>Регион</th>
-      <th>Город</th>
-      <th>Этап</th>
-      <th>Статус оператора</th>
-      <th>Статус партнёра</th>
-      <th colspan="2"></th>
-    </tr>
-    </thead>
 
-    <tbody>
-    <% @clients.each_with_index do |client, index| %>
-        <tr class="city_code_<%= client.city_code %>">
-          <td><%= index + 1 %></td>
-          <td><%= client.statement_date %></td>
-          <td><%= client.surname + ' ' + client.name + ' ' + client.patronymic %></td>
-          <td><%= client.birth_date %></td>
-          <td>+7 <%= client.phone %></td>
+  <%= form_tag clients_path, :method => 'get', :id => "clients_search" do %>
+      <p>
+        <%= text_field_tag :search, params[:search], :placeholder => 'фамилия, имя, СНИЛС, тел.' %>
+        <%= select_tag :operator_status, options_for_select(Client.sel_op_status, params[:operator_status]) %>
+        <%= select_tag :partner_status, options_for_select(Client.sel_ag_status, params[:partner_status]) %>
+        <%= submit_tag "Поиск", :name => nil %>
+      </p>
 
-          <td class="r"><%= client.region %></td>
-          <td class="c"><%= client.city %></td>
-          <td>Этап <%= client.stage %></td>
-          <td class='call-<%= client.operator_status %>'><%= client.operator_status %>
-            <br><span class="comment"><%= client.operator_comment %></span></td>
-          <td><%= client.partner_status %><br/><span class="comment"><%= client.partner_comment %></span></td>
 
-          <% if can? :update, client %>
-              <td><%= link_to image_tag('edit-icon.png'), edit_client_path(client) %>   </td>
-          <% end %>
-          <% if can? :destroy, client %>
-              <td><%= link_to image_tag('delete-icon.png'), client, method: :delete, data: {confirm: 'Are you sure?'} %>   </td>
-          <% end %>
-        </tr>
-    <% end %>
-    </tbody>
-  </table>
+      <span style="position: absolute; right:0px; top:40px">Выводить по <%= select_tag :per_page, options_for_select([25, 50, 100, 500, 1000, 5000], params[:per_page]) %></span>
+  <% end %>
+  <div id="clients"><%= render 'clients' %></div>
 
 </div>

@@ -1,5 +1,6 @@
 class ClientsController < ApplicationController
   load_and_authorize_resource
+  helper_method :sort_column, :sort_direction
   before_action :set_client, only: [:show, :edit, :update, :destroy]
 
   # GET /clients
@@ -20,7 +21,7 @@ class ClientsController < ApplicationController
     elsif current_role == 'agent'
       cur_city_codes = []
       current_user.partner.cities.each do |city|
-        if (current_user.cities.map{|c| c.city_code}.include? city.city_code)
+        if (current_user.cities.map { |c| c.city_code }.include? city.city_code)
           cur_city_codes.push(city.city_code)
         end
       end
@@ -29,8 +30,14 @@ class ClientsController < ApplicationController
       @clients = Client.none
     end
 
+    @clients = @clients.search(params[:search])
+    @clients = @clients.operator_status(params[:operator_status]) if params[:operator_status].present?
+    @clients = @clients.partner_status(params[:partner_status]) if params[:partner_status].present?
+    @clients = @clients.order(sort_column + ' ' + sort_direction).page(params[:page]).per(params[:per_page])
+
     respond_to do |format|
       format.html
+      format.js
       format.xls # { send_data @clients.to_csv(col_sep: "\t") }
     end
   end
@@ -71,7 +78,7 @@ class ClientsController < ApplicationController
   def update
     respond_to do |format|
       format_snils
-      if(@client.stage == 1 && params[:client][:stage] == '2')
+      if (@client.stage == 1 && params[:client][:stage] == '2')
         params[:client][:statement_date] = Time.now
       end
 
@@ -113,5 +120,13 @@ class ClientsController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def client_params
     params.require(:client).permit(:name, :surname, :patronymic, :birth_date, :phone, :stage, :meeting_date, :operator_status, :operator_comment, :partner_status, :partner_comment, :user_id, :statement_date, :city, :region, :city_code, :snils, :address)
+  end
+
+  def sort_column
+    Client.column_names.include?(params[:sort]) ? params[:sort] : "id"
+  end
+
+  def sort_direction
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
   end
 end

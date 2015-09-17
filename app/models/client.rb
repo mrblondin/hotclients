@@ -6,6 +6,20 @@ class Client < ActiveRecord::Base
   validates :phone, :format => {:with => /\A(\+1)?[0-9]{10}\z/, :message => "Неверный номер телефона"}
   validates :snils, snils: true
 
+  scope :operator_status, -> (operator_status) { where operator_status: operator_status }
+  scope :partner_status, -> (partner_status) { where partner_status: partner_status }
+
+  def self.sel_stage
+    [['Этап 1', '1'], ['Этап 2', '2']]
+  end
+
+  def self.sel_op_status
+    ['', 'Недозвон-1', 'Недозвон-2', 'Недозвон-Итог', 'Оформлен', 'Отказ', 'Выключен', 'Перезвон', 'Дубль']
+  end
+
+  def self.sel_ag_status
+    ['', 'Недозвон-1', 'Недозвон-2', 'Недозвон-Итог', 'Договор', 'Встреча', 'Перенос', 'Отказ-телефон', 'Отказ-встреча', 'Выключен', 'Неверный номер', 'Дубль']
+  end
 
   def self.to_csv(options = {})
     CSV.generate(options) do |csv|
@@ -65,6 +79,14 @@ class Client < ActiveRecord::Base
         Roo::Excelx.new(file.path, file_warning: :ignore)
       else
         raise "Неизвестный тип файла: #{file.original_filename}"
+    end
+  end
+
+  def self.search(search)
+    if search
+      where('name LIKE ? OR surname LIKE ? OR phone LIKE ? OR snils LIKE ?', "%#{search}%", "%#{search}%", "%#{search}%", "%#{search}%")
+    else
+      where(nil)
     end
   end
 end

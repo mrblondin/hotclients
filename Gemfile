@@ -24,6 +24,9 @@ gem 'cancan'
 gem 'roo', '~> 2.1.0'
 gem 'roo-xls'
 
+#pagination
+gem 'kaminari'
+
 #проверка номеров телефона
 gem 'phony_rails' # Include phony_rails after mongoid (if you use mongoid, see issue #66 on github).
 

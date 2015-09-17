@@ -29,3 +29,10 @@ en:
   time:
     formats:
       default: "%d/%m/%Y %H:%M"
+  views:
+      pagination:
+        previous: "&lt; пред."
+        next: "след. &gt;"
+        truncate: "..."
+        first: "&laquo;"
+        last: "&raquo;"
