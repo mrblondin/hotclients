@@ -84,7 +84,7 @@ class Client < ActiveRecord::Base
 
   def self.search(search)
     if search
-      where('name LIKE ? OR surname LIKE ? OR phone LIKE ? OR snils LIKE ?', "%#{search}%", "%#{search}%", "%#{search}%", "%#{search}%")
+      where('name LIKE ? OR surname LIKE ? OR phone LIKE ? OR snils LIKE ?', "%#{search}%", "%#{search}%", "%#{search}%", "%#{search.gsub(/[^0-9]/, '')}%")
     else
       where(nil)
     end

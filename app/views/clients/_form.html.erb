@@ -145,7 +145,7 @@
 
         <div class="field">
           <%= f.label :snils, 'СНИЛС' %>
-          <%= f.text_field :snils, :value => (@client.snils.nil? || @client.snils.empty? ? '' : Snils.new(@client.snils).formatted) %>
+          <%= f.text_field :snils, :value => @client.snils.present? ? Snils.new(@client.snils).formatted : '' %>
         </div>
       </div>
       <div class="right">

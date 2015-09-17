@@ -84,12 +84,13 @@ body {
       }
 
       td {
-        padding: 5px;
+        padding: 3px;
         border: 1px solid #6d8084;
-        span.comment {
+        span.comment, span.snils {
           font-size: 70%;
-          color: #444444
+          color: #444444;
         }
+        line-height: 100%;
       }
 
       td.call-Отказ {
