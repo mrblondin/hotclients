@@ -13,4 +13,8 @@ class User < ActiveRecord::Base
 
   validates_presence_of :password, :on => :create
   validates_confirmation_of :password, :allow_blank => true
+
+  def self.roles
+    [['Главный Админ', 'superadmin'], ['Админ', 'admin'], ['Оператор', 'operator'], ['Партнёр', 'partner'], ['Агент', 'agent']]
+  end
 end

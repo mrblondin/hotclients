@@ -14,6 +14,9 @@ class UsersController < ApplicationController
     else
       @users = User.none
     end
+
+    @users = @users.where(:role => params[:role]) if params[:role].present?
+    @users = @users.where(:partner_id => params[:partner_id]) if params[:partner_id].present?
   end
 
   # GET /users/1

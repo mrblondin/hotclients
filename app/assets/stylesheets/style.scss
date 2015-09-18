@@ -174,8 +174,11 @@ body {
       margin: 5px 0 0 0;
     }
 
-    #clients_search input[type=text]{
-      width:200px;
+    #clients_search input[type=text] {
+      &#search {
+        width: 200px;
+      }
+      width: 100px;
     }
   }
 

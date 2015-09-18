@@ -33,6 +33,10 @@ class ClientsController < ApplicationController
     @clients = @clients.search(params[:search])
     @clients = @clients.operator_status(params[:operator_status]) if params[:operator_status].present?
     @clients = @clients.partner_status(params[:partner_status]) if params[:partner_status].present?
+    @clients = @clients.where('birth_date >= ?', params[:birth_date_from].to_date.to_formatted_s(:db)) if params[:birth_date_from].present?
+    @clients = @clients.where('birth_date <= ?', params[:birth_date_to].to_date.to_formatted_s(:db)) if params[:birth_date_to].present?
+    @clients = @clients.where('city_code LIKE ?', "#{params[:region_code][0..1]}%" ) if (params[:region_code].present? && !params[:city_code].present?)
+    @clients = @clients.where('city_code = ?', "#{params[:city_code]}" ) if params[:city_code].present?
     @clients = @clients.order(sort_column + ' ' + sort_direction).page(params[:page]).per(params[:per_page])
 
     respond_to do |format|

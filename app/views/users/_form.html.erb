@@ -30,7 +30,7 @@
 
     <% selection_roles = {}
        if current_role == 'superadmin'
-         selection_roles = [['Главный Админ', 'superadmin'], ['Админ', 'admin'], ['Оператор', 'operator'], ['Партнёр', 'partner'], ['Агент', 'agent']]
+         selection_roles = User.roles
        elsif current_role == 'admin'
          selection_roles = [['Оператор', 'operator']]
        elsif current_role == 'partner'

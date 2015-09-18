@@ -4,6 +4,7 @@ function fillInCityKLADR() {
     var $region = $container.find('input.region'),
         $city = $container.find('input.city'),
         $citycode = $container.find('input[type=hidden].city_code');
+    $regioncode = $container.find('input[type=hidden].region_code');
 
     var $tooltip = $container.find('.tooltip');
     $()
@@ -20,6 +21,7 @@ function fillInCityKLADR() {
                     $city.kladr('controller').clear();
                     $city.val("");
                     $citycode.val("");
+                    $regioncode.val(obj.id);
                 }
                 else if ($(this).data('kladr-type') == 'city') {
                     $citycode.val(obj.id);
@@ -38,6 +40,15 @@ function fillInCityKLADR() {
             },
             checkBefore: function () {
                 var $input = $(this);
+
+                if ($(this).val() == '') {
+                    if ($(this).data('kladr-type') == 'region') {
+                        $regioncode.val("");
+                    }
+                    else if ($(this).data('kladr-type') == 'city') {
+                        $citycode.val("");
+                    }
+                }
 
                 if (!$.trim($input.val())) {
                     $tooltip.hide();

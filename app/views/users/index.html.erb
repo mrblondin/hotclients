@@ -2,7 +2,15 @@
 
   <h1>Список пользователей</h1>
 
-
+  <% if current_role == 'superadmin' %>
+      <%= form_tag users_path, :method => 'get', :id => "users_search" do %>
+          <p>
+            Роль: <%= select_tag :role, options_for_select(User.roles, params[:role]), :prompt => 'Все' %>
+            Партнёр: <%= select_tag :partner_id, options_from_collection_for_select(User.where(:role => 'partner'), 'id', 'surname', params[:partner_id]), :prompt => 'Все'  %>
+            <%= submit_tag "Поиск", :name => nil %>
+          </p>
+      <% end %>
+  <% end %>
   <%= link_to 'Новый пользователь', new_user_path %>
   <table>
     <thead>

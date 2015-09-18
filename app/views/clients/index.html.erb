@@ -1,13 +1,21 @@
 <script type="text/javascript">
-  //Отправляешь форму при смене количества записей на страницу
+    //Отправляешь форму при смене количества записей на страницу
     $(function () {
+        fillInCityKLADR();
         $('#per_page').change(
-            function () {
-               $('#clients_search').submit();
-        });
+                function () {
+                    $('#clients_search').submit();
+                });
 
         $('select#operator_status option').first().text('Статус оператора');
         $('select#partner_status option').first().text('Статус партнёра');
+
+        $('#birth_date_from').add('#birth_date_to').datepicker({
+            dateFormat: "dd/mm/yy",
+            yearRange: "1957:2002",
+            changeMonth: true,
+            changeYear: true
+        });
     });
 </script>
 
@@ -23,11 +31,17 @@
       <span style="display: inline-block; position: absolute; top:0px; left:0px; font-weight: bold"><%= link_to 'Добавить нового клиента', new_client_path %> </span>
   <% end %>
 
-  <%= form_tag clients_path, :method => 'get', :id => "clients_search" do %>
+  <%= form_tag clients_path, :method => 'get', :id => "clients_search", :class => 'city_form' do %>
       <p>
         <%= text_field_tag :search, params[:search], :placeholder => 'фамилия, имя, СНИЛС, тел.' %>
         <%= select_tag :operator_status, options_for_select(Client.sel_op_status, params[:operator_status]) %>
         <%= select_tag :partner_status, options_for_select(Client.sel_ag_status, params[:partner_status]) %>
+        <%= text_field_tag :birth_date_from, params[:birth_date_from], :placeholder => 'дата рожд. от' %>
+        <%= text_field_tag :birth_date_to, params[:birth_date_to], :placeholder => 'дата рожд. до' %>
+        <span class="js-form-address"><%= text_field_tag :region, params[:region], :class => 'region', :placeholder => 'регион' %>
+          <%= text_field_tag :city, params[:city], :class => 'city', :placeholder => 'город' %>
+          <%= hidden_field_tag :region_code, params[:region_code], :class => 'region_code' %>
+          <%= hidden_field_tag :city_code, params[:city_code], :class => 'city_code' %> </span>
         <%= submit_tag "Поиск", :name => nil %>
       </p>
 
