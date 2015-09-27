@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150914231855) do
+ActiveRecord::Schema.define(version: 20150927185623) do
 
   create_table "cities", force: true do |t|
     t.string   "region"
@@ -45,6 +45,13 @@ ActiveRecord::Schema.define(version: 20150914231855) do
     t.string   "city_code",        limit: 13
     t.string   "snils"
     t.text     "address"
+    t.date     "status_date"
+    t.date     "transfer_date"
+    t.string   "passport_number"
+    t.text     "passport_issued"
+    t.date     "passport_date"
+    t.text     "birth_place"
+    t.string   "sex"
   end
 
   add_index "clients", ["city_code"], name: "index_clients_on_city_code", using: :btree

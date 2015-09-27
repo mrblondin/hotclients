@@ -123,7 +123,7 @@ class ClientsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def client_params
-    params.require(:client).permit(:name, :surname, :patronymic, :birth_date, :phone, :stage, :meeting_date, :operator_status, :operator_comment, :partner_status, :partner_comment, :user_id, :statement_date, :city, :region, :city_code, :snils, :address)
+    params.require(:client).permit(:name, :surname, :patronymic, :birth_date, :phone, :stage, :meeting_date, :operator_status, :operator_comment, :partner_status, :partner_comment, :user_id, :statement_date, :city, :region, :city_code, :snils, :address, :status_date, :transfer_date, :passport_number, :passport_issued, :passport_date, :birth_place, :sex)
   end
 
   def sort_column

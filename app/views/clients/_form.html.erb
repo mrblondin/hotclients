@@ -1,7 +1,7 @@
 <script script="text/javascript">
     $(function () {
         fillInCityKLADR();
-        $('#client_meeting_date').datepicker({
+        $('#client_meeting_date').add('#client_status_date').add('#client_transfer_date').datepicker({
             dateFormat: "dd/mm/yy",
             numberOfMonths: 3,
             showButtonPanel: true
@@ -9,6 +9,13 @@
         $('#client_birth_date').datepicker({
             dateFormat: "dd/mm/yy",
             yearRange: "1957:2002",
+            changeMonth: true,
+            changeYear: true
+        });
+
+        $('#client_passport_date').datepicker({
+            dateFormat: "dd/mm/yy",
+            yearRange: "-30:+0",
             changeMonth: true,
             changeYear: true
         });
@@ -59,6 +66,8 @@
         $('#client_partner_status').prop('disabled', true);
         $('#client_partner_comment').prop('disabled', true);
         $('#client_meeting_date').prop('disabled', true);
+        $('#client_status_date').prop('disabled', true);
+        $('#client_transfer_date').prop('disabled', true);
         <%end%>
 
 
@@ -74,6 +83,10 @@
         $('#client_snils').prop('disabled', true);
         $('#client_operator_status').prop('disabled', true);
         $('#client_operator_comment').prop('disabled', true);
+        $('#clien_sex').prop('disabled', true);
+        $('#clien_passport_number').prop('disabled', true);
+        $('#clien_passport_issued').prop('disabled', true);
+        $('#clien_passport_date').prop('disabled', true);
         <%end%>
 
         <% if ['agent', 'partner', 'operator'].include? current_role %>
@@ -83,7 +96,7 @@
 
         $('form input').add('form select').add('form textarea').each(function () {
             if ($(this).prop('disabled') == true) {
-                $(this).siblings('label').css('font-weight','normal');
+                $(this).siblings('label').css('font-weight', 'normal');
             }
         });
     });
@@ -103,27 +116,6 @@
     <% end %>
     <div class="clearfix">
       <div class="left">
-        <div class="field">
-          <%= f.label :surname, 'Фамилия' %>
-          <%= f.text_field :surname %>
-        </div>
-        <div class="field">
-          <%= f.label :name, 'Имя' %>
-          <%= f.text_field :name %>
-        </div>
-        <div class="field">
-          <%= f.label :patronymic, 'Отчество' %>
-          <%= f.text_field :patronymic %>
-        </div>
-        <div class="field">
-          <%= f.label :birth_date, 'Дата рождения' %>
-          <%= f.text_field :birth_date %>
-        </div>
-        <div class="field">
-          <%= f.label :phone, 'Телефон' %>
-          +7 <%= f.text_field :phone, :style => 'width:142px', :maxlength => '10' %>
-        </div>
-
         <div class="js-form-address">
           <div class="field">
             <%= f.label :region, 'Регион' %>
@@ -138,8 +130,16 @@
         </div>
 
         <div class="field">
-          <%= f.label :address, 'Адрес' %>
-          <%= f.text_area :address %>
+          <%= f.label :surname, 'Фамилия' %>
+          <%= f.text_field :surname %>
+        </div>
+        <div class="field">
+          <%= f.label :name, 'Имя' %>
+          <%= f.text_field :name %>
+        </div>
+        <div class="field">
+          <%= f.label :patronymic, 'Отчество' %>
+          <%= f.text_field :patronymic %>
         </div>
 
 
@@ -147,19 +147,57 @@
           <%= f.label :snils, 'СНИЛС' %>
           <%= f.text_field :snils, :value => @client.snils.present? ? Snils.new(@client.snils).formatted : '' %>
         </div>
+
+        <div class="field">
+          <%= f.label :sex, 'Пол' %>
+          <%= f.select :sex, options_for_select([['Пол', ''], ['Мужской', 'M'], ['Женский', 'F']], @client.sex) %>
+        </div>
+
+        <div class="field">
+          <%= f.label :passport_number, 'Номер паспорта' %>
+          <%= f.text_field :passport_number, :maxlength => '14' %>
+        </div>
+
+        <div class="field">
+          <%= f.label :passport_issued, 'Кем выдан паспорт' %>
+          <%= f.text_area :passport_issued %>
+        </div>
+
+        <div class="field">
+          <%= f.label :passport_date, 'Дата выдачи паспорта' %>
+          <%= f.text_field :passport_date %>
+        </div>
+
+        <div class="field">
+          <%= f.label :birth_place, 'Место рождения' %>
+          <%= f.text_area :birth_place %>
+        </div>
+
+        <div class="field">
+          <%= f.label :birth_date, 'Дата рождения' %>
+          <%= f.text_field :birth_date %>
+        </div>
+        <div class="field">
+          <%= f.label :phone, 'Телефон' %>
+          +7 <%= f.text_field :phone, :style => 'width:142px', :maxlength => '10' %>
+        </div>
+        <div class="field">
+          <%= f.label :address, 'Адрес' %>
+          <%= f.text_area :address %>
+        </div>
       </div>
       <div class="right">
-        <div class="field">
-          <%= f.label :stage, 'Этап' %>
-          <%= f.select :stage, options_for_select(Client.sel_stage, @client.stage), {}, {:class => 'select-stage'} %>
-        </div>
+
 
         <div class="field">
           <%= f.label :user_id, 'Оператор' %>
           <%= collection_select(:client, :user_id, User.where(:role => 'operator'), :id, :login, :prompt => 'Please select operator') %>
         </div>
 
-
+        <div class="field">
+          <%= f.label :stage, 'Этап' %>
+          <%= f.select :stage, options_for_select(Client.sel_stage, @client.stage), {}, {:class => 'select-stage'} %>
+        </div>
         <div class="field">
           <%= f.label :operator_status, 'Статус оператора' %>
           <%= f.select :operator_status, options_for_select(Client.sel_op_status, @client.operator_status), {}, {:class => 'select-op-status'} %>
@@ -170,8 +208,18 @@
         </div>
 
         <div class="field">
+          <%= f.label :status_date, 'Дата статуса' %>
+          <%= f.text_field :status_date %>
+        </div>
+
+        <div class="field">
           <%= f.label :partner_status, 'Статус партнёра' %>
           <%= f.select :partner_status, options_for_select(Client.sel_ag_status, @client.partner_status), {}, {:class => 'select-op-status'} %>
+        </div>
+
+        <div class="field">
+          <%= f.label :transfer_date, 'Дата переноса/перезвона' %>
+          <%= f.text_field :transfer_date %>
         </div>
 
         <div class="field">
