@@ -31,10 +31,10 @@ production:
   adapter: mysql2
   encoding: utf8
   reconnect: false
-  database: hotclients
+  database: radik_hotclients
   pool: 5
   timeout: 5000
-  host: hotclients.ckwc1ienb6iu.eu-west-1.rds.amazonaws.com
-  username: admin
+  host: grey1k.beget.ru
+  username: radik_hotclients
   password: 'hot_clients'
   port: 3306

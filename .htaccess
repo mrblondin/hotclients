@@ -1,0 +1,4 @@
+RailsEnv production
+PassengerRuby /opt/rubies/ruby-2.2.0/bin/ruby
+PassengerAppRoot /home/r/radik/radik.bget.ru
+SetEnv GEM_HOME /home/r/radik/.gem/ruby/2.2.0

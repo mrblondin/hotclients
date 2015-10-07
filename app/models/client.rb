@@ -39,7 +39,9 @@ class Client < ActiveRecord::Base
         row = spreadsheet1.row(i)
         client = Client.new()
         client.statement_date = row[header.index('Дата')]
-
+        if client.statement_date == nil
+          break
+        end
         region = row[header.index('Область')].strip
         region = region.split(' ')[1..-1].join(' ') if region.start_with?('г.', 'обл.', 'респ.', 'край.', 'Аобл.', 'АО.') ## первое слово убираем
         client.region = region
